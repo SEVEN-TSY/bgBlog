@@ -8,7 +8,6 @@ import com.seven.blog.dao.pojo.Article;
 import com.seven.blog.dao.pojo.SysUser;
 import com.seven.blog.service.*;
 import com.seven.blog.vo.ArticleVo;
-import com.seven.blog.vo.Result;
 import com.seven.blog.vo.TagVo;
 import com.seven.blog.vo.params.PageParams;
 import org.joda.time.DateTime;
@@ -44,7 +43,7 @@ public class ArticleServiceImpl implements ArticleService {
     private SysUserService sysUserService;
 
     @Override
-    public Result listArticlesPage(PageParams pageParams) {
+    public List<ArticleVo> listArticlesPage(PageParams pageParams) {
         Page<Article> page=new Page<>(pageParams.getPage(),pageParams.getPageSize());
         LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         //置顶排序
@@ -53,37 +52,40 @@ public class ArticleServiceImpl implements ArticleService {
         Page<Article> articlePage = articleMapper.selectPage(page, lambdaQueryWrapper);
         List<Article> articleList = articlePage.getRecords();
         List<ArticleVo> articleVoList=copyList(articleList,true,true);
-        return Result.success(articleVoList);
+        return articleVoList;
     }
 
     @Override
-    public Result listHotArticles(int limit) {
+    public List<ArticleVo> listHotArticles(int limit) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.orderByDesc(Article::getViewCounts);
         queryWrapper.select(Article::getId,Article::getTitle);
         queryWrapper.last("limit "+limit);
         List<Article> articles = articleMapper.selectList(queryWrapper);
-        return Result.success(copyList(articles,false,false));
+        return copyList(articles,false,false);
     }
 
     @Override
-    public Result listNewArticle(int limit) {
+    public List<ArticleVo> listNewArticle(int limit) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.orderByDesc(Article::getCreateDate);
         queryWrapper.select(Article::getId,Article::getTitle);
         queryWrapper.last("limit " +limit);
         List<Article> articles = articleMapper.selectList(queryWrapper);
-        return Result.success(copyList(articles,false,false));
+        return copyList(articles,false,false);
     }
 
     @Override
-    public Result listArchives() {
+    public List<Archives> listArchives() {
         List<Archives> archives=articleMapper.listArchives();
-        return Result.success(archives);
+        return archives;
     }
 
+    @Autowired
+    private ThreadService threadService;
+
     @Override
-    public Result findArticleById(Long id) {
+    public ArticleVo findArticleById(Long id) {
         /*
         1.根据文章id查询出来文章信息
         2.将Article对象copy为ArticleVo对象
@@ -92,8 +94,12 @@ public class ArticleServiceImpl implements ArticleService {
             2.3根据存储的分类id获取类别内容
          */
         Article article = articleMapper.selectById(id);
+        /*
+        3.更新阅读次数
+         */
+        threadService.updateViewCounts(articleMapper,article);
 
-        return Result.success(copy(article,true,true,true,true));
+        return copy(article,true,true,true,true);
     }
 
     private List<ArticleVo> copyList(List<Article> articleList, Boolean isTag, Boolean isAuthor) {

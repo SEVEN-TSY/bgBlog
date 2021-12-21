@@ -1,10 +1,9 @@
 package com.seven.blog.service;
 
 import com.seven.blog.dao.pojo.SysUser;
+import com.seven.blog.vo.LoginUserVo;
 import com.seven.blog.vo.Result;
 import org.springframework.stereotype.Service;
-
-import java.sql.ResultSet;
 
 @Service
 public interface SysUserService {
@@ -14,7 +13,7 @@ public interface SysUserService {
     //用户登录验证
     SysUser findUser(String account, String pwd);
     //根据token获得登录用户信息
-    Result getUserInfoByToken(String token);
+    LoginUserVo getUserInfoByToken(String token);
 
     SysUser findUserByAccount(String account);
 

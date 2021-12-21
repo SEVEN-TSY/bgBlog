@@ -51,7 +51,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Result getUserInfoByToken(String token) {
+    public LoginUserVo getUserInfoByToken(String token) {
         SysUser sysUser = loginService.checkToken(token);
         //将sysUser转换为loginUserVO
         LoginUserVo loginUserVO = new LoginUserVo();
@@ -59,7 +59,7 @@ public class SysUserServiceImpl implements SysUserService {
         loginUserVO.setNickname(sysUser.getNickname());
         loginUserVO.setAvatar(sysUser.getAvatar());
         loginUserVO.setId(sysUser.getId());
-        return Result.success(loginUserVO);
+        return loginUserVO;
     }
 
     @Override

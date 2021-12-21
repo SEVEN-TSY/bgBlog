@@ -28,7 +28,7 @@ public class ArticleController {
      */
     @PostMapping
     public Result listArticle(@RequestBody PageParams pageParams){
-        return articleService.listArticlesPage(pageParams);
+        return Result.success(articleService.listArticlesPage(pageParams));
 
     }
     /*
@@ -39,7 +39,7 @@ public class ArticleController {
     @PostMapping("hot")
     public Result getHotArticle(){
         int limit=5;
-        return articleService.listHotArticles(limit);
+        return Result.success(articleService.listHotArticles(limit));
     }
     /*
      * 获取最新文章
@@ -49,7 +49,7 @@ public class ArticleController {
     @PostMapping("new")
     public Result getNewArticle(){
         int limit=5;
-        return articleService.listNewArticle(limit);
+        return Result.success(articleService.listNewArticle(limit));
     }
     /*
      * 文章归档
@@ -58,7 +58,7 @@ public class ArticleController {
      */
     @PostMapping("listArchives")
     public Result listArchives(){
-        return articleService.listArchives();
+        return Result.success(articleService.listArchives());
     }
 
     /*
@@ -69,7 +69,7 @@ public class ArticleController {
     @PostMapping("view/{id}")
     public Result getArticleView(@PathVariable("id") Long id){
 
-        return articleService.findArticleById(id);
+        return Result.success(articleService.findArticleById(id));
     }
 
 

@@ -22,6 +22,6 @@ public class SysUserController {
 
     @GetMapping("/currentUser")
     public Result currentUser(@RequestHeader("Authorization")String token){
-        return sysUserService.getUserInfoByToken(token);
+        return Result.success(sysUserService.getUserInfoByToken(token));
     }
 }
