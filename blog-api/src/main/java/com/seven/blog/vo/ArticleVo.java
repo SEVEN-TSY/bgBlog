@@ -34,5 +34,6 @@ public class ArticleVo {
     //标签
     private List<TagVo> tags;
     //分类
+    //private List<CategoryVo> categorys;
     private List<CategoryVo> categorys;
 }

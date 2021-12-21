@@ -6,9 +6,7 @@ import com.seven.blog.dao.dos.Archives;
 import com.seven.blog.dao.mapper.ArticleMapper;
 import com.seven.blog.dao.pojo.Article;
 import com.seven.blog.dao.pojo.SysUser;
-import com.seven.blog.service.ArticleService;
-import com.seven.blog.service.SysUserService;
-import com.seven.blog.service.TagService;
+import com.seven.blog.service.*;
 import com.seven.blog.vo.ArticleVo;
 import com.seven.blog.vo.Result;
 import com.seven.blog.vo.TagVo;
@@ -34,6 +32,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private ArticleBodyService articleBodyService;
+
+    @Autowired
+    private CategoryService categoryService;
+
 
     @Autowired
     private SysUserService sysUserService;
@@ -79,18 +84,35 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Result findArticleById(Long id) {
-        return null;
+        /*
+        1.根据文章id查询出来文章信息
+        2.将Article对象copy为ArticleVo对象
+            2.1复制基本信息，copy标签、作者
+            2.2根据存储的文章内容id获取文章主体内容
+            2.3根据存储的分类id获取类别内容
+         */
+        Article article = articleMapper.selectById(id);
+
+        return Result.success(copy(article,true,true,true,true));
     }
 
     private List<ArticleVo> copyList(List<Article> articleList, Boolean isTag, Boolean isAuthor) {
         List<ArticleVo> articleVoList =new ArrayList<>();
         for (Article article : articleList) {
-            articleVoList.add(copy(article,isTag,isAuthor));
+            articleVoList.add(copy(article,isTag,isAuthor,false,false));
+        }
+        return articleVoList;
+    }
+    //多态
+    private List<ArticleVo> copyList(List<Article> articleList, Boolean isTag, Boolean isAuthor,Boolean isBody,Boolean isCategory) {
+        List<ArticleVo> articleVoList =new ArrayList<>();
+        for (Article article : articleList) {
+            articleVoList.add(copy(article,isTag,isAuthor,isBody,isCategory));
         }
         return articleVoList;
     }
 
-    private ArticleVo copy(Article article, Boolean isTag, Boolean isAuthor){
+    private ArticleVo copy(Article article, Boolean isTag, Boolean isAuthor,Boolean isBody,Boolean isCategory){
         ArticleVo articleVO=new ArticleVo();
         //将相同属性copy
         BeanUtils.copyProperties(article,articleVO);
@@ -104,6 +126,16 @@ public class ArticleServiceImpl implements ArticleService {
         if(isAuthor){
              SysUser author=sysUserService.selectById(article.getAuthorId());
              articleVO.setAuthor(author.getNickname());
+        }
+        //主体
+        if(isBody){
+            Long bodyId = article.getBodyId();
+            articleVO.setBody(articleBodyService.getBodyVoById(bodyId));
+        }
+        //分类
+        if(isCategory){
+            Long categoryId = article.getCategoryId();
+            articleVO.setCategorys(categoryService.getCategoryVoById(categoryId));
         }
         return articleVO;
     }
