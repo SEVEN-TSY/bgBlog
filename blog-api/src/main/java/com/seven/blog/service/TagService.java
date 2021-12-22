@@ -8,4 +8,6 @@ public interface TagService {
     List<TagVo> findTagsByArticleId(Long id);
 
     List<TagVo> getHotTag(int limit);
+
+    List<TagVo> getAllTags();
 }

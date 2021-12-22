@@ -1,9 +1,11 @@
 package com.seven.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.seven.blog.dao.mapper.TagMapper;
 import com.seven.blog.dao.pojo.Tag;
 import com.seven.blog.service.TagService;
 import com.seven.blog.vo.TagVo;
+import javafx.scene.control.Label;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,13 @@ public class TagServiceImpl implements TagService {
             return Collections.emptyList();
         }
         List<Tag> tagList= tagMapper.findtagsByTagIds(getHotTagIds);
+        return copyList(tagList);
+    }
+
+    @Override
+    public List<TagVo> getAllTags() {
+        LambdaQueryWrapper<Tag> lambdaQueryWrapper=new LambdaQueryWrapper<>();
+        List<Tag> tagList = tagMapper.selectList(lambdaQueryWrapper);
         return copyList(tagList);
     }
 

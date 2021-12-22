@@ -4,10 +4,12 @@ import com.seven.blog.service.TagService;
 import com.seven.blog.vo.Result;
 import com.seven.blog.vo.TagVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -33,5 +35,10 @@ public class TagController {
         int limit=6;
         List<TagVo> hotTag = tagService.getHotTag(limit);
         return Result.success(hotTag);
+    }
+    @GetMapping
+    public Result getAllTags(){
+        List<TagVo> allTags = tagService.getAllTags();
+        return Result.success(allTags);
     }
 }
