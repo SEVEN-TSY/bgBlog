@@ -12,7 +12,14 @@ import java.util.List;
  * @Description
  */
 public interface CommentService {
-    public List<CommentVo> getComments(Long articleId);
+
+    /*
+     * 根据文章id获取该文章的评论信息
+     * @param articleId
+     * @date 2021/12/22 17:45
+     * @return List<CommentVo>
+     */
+    List<CommentVo> getComments(Long articleId);
 
     /*
      * 评论文章

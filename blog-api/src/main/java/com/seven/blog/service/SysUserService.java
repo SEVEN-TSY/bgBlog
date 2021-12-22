@@ -16,8 +16,10 @@ public interface SysUserService {
     //根据token获得登录用户信息
     LoginUserVo getUserInfoByToken(String token);
 
+    //根据账号获取用户信息
     SysUser findUserByAccount(String account);
 
+    //保存新增的用户信息
     Result save(SysUser sysUser);
 
     //根据id获取用户vo信息

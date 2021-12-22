@@ -19,6 +19,13 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    /*
+     * 用户登录
+     * @param loginParam
+     * @date 2021/12/22 17:42
+     * @return Result
+     */
     @PostMapping
     public Result login(@RequestBody LoginParam loginParam){
         return loginService.login(loginParam);

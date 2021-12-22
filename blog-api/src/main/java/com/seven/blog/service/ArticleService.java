@@ -9,12 +9,16 @@ import java.util.List;
 
 @Service
 public interface ArticleService {
+
     //列出分页的文章列表
     List<ArticleVo> listArticlesPage(PageParams pageParams);
+
     //列出最热文章
     List<ArticleVo> listHotArticles(int limit);
+
     //最新文章
     List<ArticleVo> listNewArticle(int limit);
+
     //文章归档
     List<Archives> listArchives();
 

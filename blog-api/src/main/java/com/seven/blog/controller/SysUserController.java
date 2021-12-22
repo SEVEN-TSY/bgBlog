@@ -20,6 +20,12 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
+    /*
+     * 根据token获取当前登录人员信息
+     * @param token
+     * @date 2021/12/22 17:43
+     * @return Result
+     */
     @GetMapping("/currentUser")
     public Result currentUser(@RequestHeader("Authorization")String token){
         return Result.success(sysUserService.getUserInfoByToken(token));

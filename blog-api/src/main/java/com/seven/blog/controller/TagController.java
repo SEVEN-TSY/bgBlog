@@ -36,6 +36,11 @@ public class TagController {
         List<TagVo> hotTag = tagService.getHotTag(limit);
         return Result.success(hotTag);
     }
+    /*
+     * 写文章-获取所有标签
+     * @date 2021/12/22 17:41
+     * @return Result
+     */
     @GetMapping
     public Result getAllTags(){
         List<TagVo> allTags = tagService.getAllTags();

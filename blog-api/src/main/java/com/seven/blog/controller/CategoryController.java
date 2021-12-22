@@ -24,6 +24,11 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    /*
+     * 写文章-获取所有分类
+     * @date 2021/12/22 17:41
+     * @return Result
+     */
     @GetMapping
     public Result getAllCategories(){
         List<CategoryVo> categoryVoList= categoryService.getAllCategories();

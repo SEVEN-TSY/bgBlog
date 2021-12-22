@@ -22,6 +22,12 @@ public class RegisterController {
     @Autowired
     private LoginService loginService;
 
+    /*
+     * 用户注册
+     * @param loginParam
+     * @date 2021/12/22 17:43
+     * @return Result
+     */
     @PostMapping
     public Result register(@RequestBody LoginParam loginParam){
         return loginService.register(loginParam);
