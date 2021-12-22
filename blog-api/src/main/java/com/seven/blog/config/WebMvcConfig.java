@@ -22,11 +22,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         //跨域配置，所有的接口
-        registry.addMapping("/**").allowedOrigins("http://localhost:8080");
+        registry
+                .addMapping("/**")
+                .allowedOrigins("http://localhost:8080");
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/test");
+        registry
+                .addInterceptor(loginInterceptor)
+                .addPathPatterns("/test")
+                .addPathPatterns("/comments/create/change");
     }
 }

@@ -3,9 +3,12 @@ package com.seven.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.seven.blog.dao.mapper.CommentMapper;
 import com.seven.blog.dao.pojo.Comment;
+import com.seven.blog.dao.pojo.SysUser;
 import com.seven.blog.service.CommentService;
 import com.seven.blog.service.SysUserService;
+import com.seven.blog.utils.SysUserLocalThread;
 import com.seven.blog.vo.CommentVo;
+import com.seven.blog.vo.params.CommentParams;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,27 @@ public class CommentServiceImpl implements CommentService {
         List<CommentVo> commentVoList=copyList(comments);
 
         return commentVoList;
+    }
+
+    @Override
+    public int makeComment(CommentParams commentParams) {
+        SysUser cuurentUser = SysUserLocalThread.get();
+        Comment comment = new Comment();
+        comment.setAuthorId(cuurentUser.getId());
+        comment.setArticleId(commentParams.getArticleId());
+        comment.setContent(commentParams.getContent());
+        Long parent = commentParams.getParent();
+        if(parent==null||parent==0){
+            comment.setLevel(1);
+            comment.setParentId(0L);
+        }else {
+            comment.setLevel(2);
+            comment.setParentId(commentParams.getParent());
+        }
+        comment.setToUid(commentParams.getToUserId()==null ? 0L : commentParams.getToUserId());
+        comment.setCreateDate(System.currentTimeMillis());
+        int row = this.commentMapper.insert(comment);
+        return row;
     }
 
     private List<CommentVo> copyList(List<Comment> comments) {

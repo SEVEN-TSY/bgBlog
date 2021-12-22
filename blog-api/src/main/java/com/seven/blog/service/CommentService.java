@@ -1,6 +1,7 @@
 package com.seven.blog.service;
 
 import com.seven.blog.vo.CommentVo;
+import com.seven.blog.vo.params.CommentParams;
 
 import java.util.List;
 
@@ -12,4 +13,12 @@ import java.util.List;
  */
 public interface CommentService {
     public List<CommentVo> getComments(Long articleId);
+
+    /*
+     * 评论文章
+     * @param commentParams
+     * @date 2021/12/22 16:34
+     * @return int
+     */
+    int makeComment(CommentParams commentParams);
 }
