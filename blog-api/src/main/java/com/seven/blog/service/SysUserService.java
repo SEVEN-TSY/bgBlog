@@ -3,6 +3,7 @@ package com.seven.blog.service;
 import com.seven.blog.dao.pojo.SysUser;
 import com.seven.blog.vo.LoginUserVo;
 import com.seven.blog.vo.Result;
+import com.seven.blog.vo.UserVo;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,4 +19,7 @@ public interface SysUserService {
     SysUser findUserByAccount(String account);
 
     Result save(SysUser sysUser);
+
+    //根据id获取用户vo信息
+    UserVo getUserVoById(Long authorId);
 }

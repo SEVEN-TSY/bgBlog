@@ -7,6 +7,7 @@ import com.seven.blog.service.LoginService;
 import com.seven.blog.service.SysUserService;
 import com.seven.blog.vo.LoginUserVo;
 import com.seven.blog.vo.Result;
+import com.seven.blog.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,15 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public Result save(SysUser sysUser) {
         return Result.success(sysUserMapper.insert(sysUser));
+    }
+
+    @Override
+    public UserVo getUserVoById(Long authorId) {
+        SysUser sysUser = sysUserMapper.selectById(authorId);
+        UserVo userVo = new UserVo();
+        userVo.setId(sysUser.getId());
+        userVo.setNickname(sysUser.getNickname());
+        userVo.setAvatar(sysUser.getAvatar());
+        return userVo;
     }
 }
