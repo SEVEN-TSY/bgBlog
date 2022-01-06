@@ -7,8 +7,10 @@ import com.seven.blog.dao.mapper.ArticleMapper;
 import com.seven.blog.dao.pojo.Article;
 import com.seven.blog.dao.pojo.SysUser;
 import com.seven.blog.service.*;
+import com.seven.blog.utils.SysUserLocalThread;
 import com.seven.blog.vo.ArticleVo;
 import com.seven.blog.vo.TagVo;
+import com.seven.blog.vo.params.ArticleParams;
 import com.seven.blog.vo.params.PageParams;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +33,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private ArticleTagService articleTagService;
 
     @Autowired
     private ArticleBodyService articleBodyService;
@@ -100,6 +105,44 @@ public class ArticleServiceImpl implements ArticleService {
         threadService.updateViewCounts(articleMapper,article);
 
         return copy(article,true,true,true,true);
+    }
+
+    @Override
+    public Long publishArticle(ArticleParams articleParams) {
+        /*
+        主要工作：拼Article对象
+        步骤：
+        1.获取当前登录用户
+        2.添加title、summary、category等相关信息，并预设bodyId
+        3.添加文章标签关系
+        4.添加文章body信息
+        5.添加文章和body的关系信息
+         */
+        Article article = new Article();
+        //作者id--当前登录用户
+        SysUser sysUser = SysUserLocalThread.get();
+        article.setAuthorId(sysUser.getId());
+        article.setViewCounts(0);
+        article.setBodyId(-1L);
+        article.setCommentCounts(0);
+        article.setCategoryId(articleParams.getCategory().getId());
+        article.setSummary(articleParams.getSummary());
+        article.setTitle(articleParams.getTitle());
+        article.setWeight(Article.Article_Common);
+        article.setCreateDate(System.currentTimeMillis());
+
+        //添加后，生成的id会自动set到article
+        articleMapper.insert(article);
+
+        //添加文章-标签关系表
+        articleTagService.insertArticleTag(article.getId(),articleParams.getTags());
+
+        //添加文章body信息
+        Long bodyId=articleBodyService.insertBody(article.getId(),articleParams.getBody());
+        article.setBodyId(bodyId);
+        articleMapper.updateById(article);
+        return article.getId();
+
     }
 
     private List<ArticleVo> copyList(List<Article> articleList, Boolean isTag, Boolean isAuthor) {

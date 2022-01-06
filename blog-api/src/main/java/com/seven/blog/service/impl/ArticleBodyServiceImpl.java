@@ -4,6 +4,7 @@ import com.seven.blog.dao.mapper.ArticleBodyMapper;
 import com.seven.blog.dao.pojo.ArticleBody;
 import com.seven.blog.service.ArticleBodyService;
 import com.seven.blog.vo.ArticleBodyVo;
+import com.seven.blog.vo.params.ArticleBodyParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,15 @@ public class ArticleBodyServiceImpl implements ArticleBodyService {
         ArticleBodyVo articleBodyVo = new ArticleBodyVo();
         articleBodyVo.setContent(articleBody.getContent());
         return articleBodyVo;
+    }
+
+    @Override
+    public Long insertBody(Long articleId,ArticleBodyParams body) {
+        ArticleBody articleBody=new ArticleBody();
+        articleBody.setArticleId(articleId);
+        articleBody.setContent(body.getContent());
+        articleBody.setContentHtml(body.getContentHtml());
+        articleBodyMapper.insert(articleBody);
+        return articleBody.getId();
     }
 }

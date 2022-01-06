@@ -1,6 +1,7 @@
 package com.seven.blog.controller;
 
 import com.seven.blog.service.ArticleService;
+import com.seven.blog.vo.params.ArticleParams;
 import com.seven.blog.vo.params.PageParams;
 import com.seven.blog.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,17 @@ public class ArticleController {
         return Result.success(articleService.findArticleById(id));
     }
 
+    /*
+     * 发布文章
+     * @param articleParams
+     * @date 2021/12/28 21:18
+     * @return Result
+     */
+    @PostMapping("publish")
+    public Result publishArticle(@RequestBody ArticleParams articleParams){
+        Long articleId= articleService.publishArticle(articleParams);
+        return Result.success(articleId);
+    }
 
 
 }

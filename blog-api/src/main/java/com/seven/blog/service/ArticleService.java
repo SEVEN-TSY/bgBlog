@@ -2,6 +2,7 @@ package com.seven.blog.service;
 
 import com.seven.blog.dao.dos.Archives;
 import com.seven.blog.vo.ArticleVo;
+import com.seven.blog.vo.params.ArticleParams;
 import com.seven.blog.vo.params.PageParams;
 import org.springframework.stereotype.Service;
 
@@ -24,4 +25,7 @@ public interface ArticleService {
 
     //根据文章id获取文章信息
     ArticleVo findArticleById(Long id);
+
+    //发布文章
+    Long publishArticle(ArticleParams articleParams);
 }
