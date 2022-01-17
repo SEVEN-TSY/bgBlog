@@ -82,7 +82,7 @@ public class ArticleController {
     @PostMapping("publish")
     public Result publishArticle(@RequestBody ArticleParams articleParams){
         Long articleId= articleService.publishArticle(articleParams);
-        return Result.success(articleId);
+        return Result.success(articleId.toString());
     }
 
 
