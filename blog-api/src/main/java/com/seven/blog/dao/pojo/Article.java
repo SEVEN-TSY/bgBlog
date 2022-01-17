@@ -20,9 +20,9 @@ public class Article {
 
     private String summary;
 
-    private Integer commentCounts;
+    private int commentCounts;
 
-    private Integer viewCounts;
+    private int viewCounts;
 
     /**
      * 作者id

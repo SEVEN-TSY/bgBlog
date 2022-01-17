@@ -5,6 +5,7 @@ import com.seven.blog.dao.pojo.ArticleTag;
 import com.seven.blog.service.ArticleTagService;
 import com.seven.blog.vo.TagVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @date 2021/12/30 18:57
  * @Description
  */
+@Service
 public class ArticleTagServiceImpl implements ArticleTagService {
 
     @Autowired

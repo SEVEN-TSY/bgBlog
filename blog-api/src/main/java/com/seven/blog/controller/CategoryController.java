@@ -34,4 +34,9 @@ public class CategoryController {
         List<CategoryVo> categoryVoList= categoryService.getAllCategories();
         return Result.success(categoryVoList);
     }
+
+    @GetMapping("/detail")
+    public Result getCategoryDetails(){
+        return Result.success(null);
+    }
 }
