@@ -12,4 +12,9 @@ import lombok.Data;
 public class PageParams {
     private int page=1;
     private int pageSize=10;
+    private String month;
+    private String year;
+    private String sort;
+    // TODO: 2022/1/18 添加月份转换
+
 }

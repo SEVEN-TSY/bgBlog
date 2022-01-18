@@ -35,8 +35,14 @@ public class CategoryController {
         return Result.success(categoryVoList);
     }
 
+    /*
+     * 导航获取所有分类详细信息
+     * @date 2022/1/18 16:11
+     * @return Result
+     */
     @GetMapping("/detail")
     public Result getCategoryDetails(){
-        return Result.success(null);
+        List<CategoryVo> categoryVoList= categoryService.getAllCategoriesDetail();
+        return Result.success(categoryVoList);
     }
 }

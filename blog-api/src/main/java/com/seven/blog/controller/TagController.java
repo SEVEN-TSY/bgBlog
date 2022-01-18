@@ -46,4 +46,15 @@ public class TagController {
         List<TagVo> allTags = tagService.getAllTags();
         return Result.success(allTags);
     }
+
+    /*
+     * 导航-获取所有标签详细信息
+     * @date 2022/1/18 16:14
+     * @return Result
+     */
+    @GetMapping("detail")
+    public Result getAllTagsDetail(){
+        List<TagVo> allTags = tagService.getAllTagsDetail();
+        return Result.success(allTags);
+    }
 }

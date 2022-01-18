@@ -19,4 +19,11 @@ public interface CategoryService {
      * @return List<CategoryVo>
      */
     List<CategoryVo> getAllCategories();
+
+    /*
+     * 获取导航栏所有分类信息+description
+     * @date 2022/1/18 16:02
+     * @return List<CategoryVo>
+     */
+    List<CategoryVo> getAllCategoriesDetail();
 }

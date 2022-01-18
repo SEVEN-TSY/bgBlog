@@ -28,4 +28,11 @@ public interface TagService {
      * @return List<TagVo>
      */
     List<TagVo> getAllTags();
+
+    /*
+     * 导航-获取所有标签详细信息
+     * @date 2022/1/18 16:14
+     * @return List<TagVo>
+     */
+    List<TagVo> getAllTagsDetail();
 }
