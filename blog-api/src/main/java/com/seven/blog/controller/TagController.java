@@ -4,10 +4,7 @@ import com.seven.blog.service.TagService;
 import com.seven.blog.vo.Result;
 import com.seven.blog.vo.TagVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.ResultSet;
 import java.util.List;
@@ -55,6 +52,12 @@ public class TagController {
     @GetMapping("detail")
     public Result getAllTagsDetail(){
         List<TagVo> allTags = tagService.getAllTagsDetail();
+        return Result.success(allTags);
+    }
+
+    @GetMapping("detail/{id}")
+    public Result getTagsDetailById(@PathVariable("id") Long id){
+        List<TagVo> allTags = tagService.getTagsDetailById(id);
         return Result.success(allTags);
     }
 }

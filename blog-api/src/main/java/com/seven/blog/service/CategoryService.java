@@ -26,4 +26,6 @@ public interface CategoryService {
      * @return List<CategoryVo>
      */
     List<CategoryVo> getAllCategoriesDetail();
+
+    List<CategoryVo> getCategoriesDetailById(Long id);
 }

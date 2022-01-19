@@ -6,6 +6,7 @@ import com.seven.blog.vo.CategoryVo;
 import com.seven.blog.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,6 +44,12 @@ public class CategoryController {
     @GetMapping("/detail")
     public Result getCategoryDetails(){
         List<CategoryVo> categoryVoList= categoryService.getAllCategoriesDetail();
+        return Result.success(categoryVoList);
+    }
+
+    @GetMapping("/detail/{id}")
+    public Result getCategoryDetails(@PathVariable("id") Long id){
+        List<CategoryVo> categoryVoList= categoryService.getCategoriesDetailById(id);
         return Result.success(categoryVoList);
     }
 }
