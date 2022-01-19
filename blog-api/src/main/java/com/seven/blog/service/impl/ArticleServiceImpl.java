@@ -1,6 +1,7 @@
 package com.seven.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.seven.blog.dao.dos.Archives;
 import com.seven.blog.dao.mapper.ArticleMapper;
@@ -50,14 +51,24 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleVo> listArticlesPage(PageParams pageParams) {
         Page<Article> page=new Page<>(pageParams.getPage(),pageParams.getPageSize());
-        LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        //置顶排序
-        //按照时间逆序排序
-        lambdaQueryWrapper.orderByDesc(Article::getWeight,Article::getCreateDate);
-        Page<Article> articlePage = articleMapper.selectPage(page, lambdaQueryWrapper);
-        List<Article> articleList = articlePage.getRecords();
-        List<ArticleVo> articleVoList=copyList(articleList,true,true);
-        return articleVoList;
+        IPage<Article> articleIPage= articleMapper.listArticles(
+                page,
+                pageParams.getMonth(),
+                pageParams.getYear(),
+                pageParams.getCategoryId(),
+                pageParams.getTagId());
+        List<Article> records = articleIPage.getRecords();
+        return copyList(records,true,true);
+
+
+        //LambdaQueryWrapper<Article> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        ////置顶排序
+        ////按照时间逆序排序
+        //lambdaQueryWrapper.orderByDesc(Article::getWeight,Article::getCreateDate);
+        //Page<Article> articlePage = articleMapper.selectPage(page, lambdaQueryWrapper);
+        //List<Article> articleList = articlePage.getRecords();
+        //List<ArticleVo> articleVoList=copyList(articleList,true,true);
+        //return articleVoList;
     }
 
     @Override

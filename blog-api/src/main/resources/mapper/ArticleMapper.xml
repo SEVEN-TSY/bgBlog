@@ -6,4 +6,22 @@
         select year(FROM_UNIXTIME(create_date/1000,'%Y-%m-%d')) as year,month(FROM_UNIXTIME(create_date/1000,'%Y-%m-%d')) as month,count(*) as count
         from ms_article group by year,month
     </select>
+    <select id="listArticles" resultType="com.seven.blog.dao.pojo.Article">
+        select * from ms_article
+        <where>
+            1=1
+            <if test="categoryId!=null">
+                and category_id=#{categoryId}
+            </if>
+            <if test="tagId!=null">
+                and id in (select id from ms_article_tag where tag_id = #{tagId})
+            </if>
+            <if test="year != null and year.length != 0 and month != null and month.length != 0">
+                and year(FROM_UNIXTIME(create_date/1000,'%Y-%m-%d'))= #{year} and month(FROM_UNIXTIME(create_date/1000,'%Y-%m-%d')) = #{month}
+            </if>
+            order by weight,create_date desc
+        </where>
+    </select>
+
+
 </mapper>

@@ -14,7 +14,18 @@ public class PageParams {
     private int pageSize=10;
     private String month;
     private String year;
+
+    public String getMonth() {
+        if(month!=null&&month.length()<=1){
+            month="0"+month;
+        }
+        return month;
+    }
+
     private String sort;
-    // TODO: 2022/1/18 添加月份转换
+
+    private Long categoryId;
+
+    private Long tagId;
 
 }
