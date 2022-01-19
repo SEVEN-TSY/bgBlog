@@ -27,5 +27,5 @@ public interface CategoryService {
      */
     List<CategoryVo> getAllCategoriesDetail();
 
-    List<CategoryVo> getCategoriesDetailById(Long id);
+    CategoryVo getCategoryDetailById(Long id);
 }

@@ -57,7 +57,7 @@ public class TagController {
 
     @GetMapping("detail/{id}")
     public Result getTagsDetailById(@PathVariable("id") Long id){
-        List<TagVo> allTags = tagService.getTagsDetailById(id);
-        return Result.success(allTags);
+        TagVo tag = tagService.getTagDetailById(id);
+        return Result.success(tag);
     }
 }

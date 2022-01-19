@@ -49,7 +49,7 @@ public class CategoryController {
 
     @GetMapping("/detail/{id}")
     public Result getCategoryDetails(@PathVariable("id") Long id){
-        List<CategoryVo> categoryVoList= categoryService.getCategoriesDetailById(id);
-        return Result.success(categoryVoList);
+        CategoryVo categoryVo= categoryService.getCategoryDetailById(id);
+        return Result.success(categoryVo);
     }
 }

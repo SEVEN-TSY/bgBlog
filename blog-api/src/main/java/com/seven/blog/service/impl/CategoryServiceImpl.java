@@ -49,20 +49,23 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryVo> getCategoriesDetailById(Long id) {
+    public CategoryVo getCategoryDetailById(Long id) {
         LambdaQueryWrapper<Category> lambdaQueryWrapper=new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Category::getId,id);
-        List<Category> categories = categoryMapper.selectList(lambdaQueryWrapper);
-        return copyList(categories);
+        Category category = categoryMapper.selectOne(lambdaQueryWrapper);
+        return copy(category);
     }
 
     private List<CategoryVo> copyList(List<Category> categoryList) {
         List<CategoryVo> categoryVoList =new ArrayList<>();
         for (Category category : categoryList) {
-            CategoryVo categoryVo = new CategoryVo();
-            BeanUtils.copyProperties(category,categoryVo);
-            categoryVoList.add(categoryVo);
+            categoryVoList.add(copy(category));
         }
         return categoryVoList;
+    }
+    private CategoryVo copy(Category category){
+        CategoryVo categoryVo = new CategoryVo();
+        BeanUtils.copyProperties(category,categoryVo);
+        return categoryVo;
     }
 }

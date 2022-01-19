@@ -36,5 +36,5 @@ public interface TagService {
      */
     List<TagVo> getAllTagsDetail();
 
-    List<TagVo> getTagsDetailById(Long id);
+    TagVo getTagDetailById(Long id);
 }
