@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 @Slf4j
 public class LogAspect {
 
-    @Pointcut(value = "@annotation(com.seven.blog.common.aop.LogAnnotation)")
+    @Pointcut("execution(* com.seven.blog.service..*.*(..)) || @annotation(com.seven.blog.common.aop.LogAnnotation)")
     public void logPointcut(){
 
     }
@@ -46,17 +46,19 @@ public class LogAspect {
         Method method = signature.getMethod();
         LogAnnotation logAnnotation = method.getAnnotation(LogAnnotation.class);
         log.info("=====================log start================================");
-        log.info("module:{}",logAnnotation.module());
-        log.info("operation:{}",logAnnotation.operation());
+        if(logAnnotation!=null){
+            log.info("module:{}",logAnnotation.module());
+            log.info("operation:{}",logAnnotation.operation());
+        }
 
         //请求的方法名
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
         log.info("request method:{}",className + "." + methodName + "()");
 
-//        //请求的参数
+        //请求的参数
         Object[] args = joinPoint.getArgs();
-        String params = JSON.toJSONString(args[0]);
+        String params = JSON.toJSONString(args);
         log.info("params:{}",params);
 
         //获取request 设置IP地址

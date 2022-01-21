@@ -1,14 +1,18 @@
 package com.seven.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.seven.blog.common.aop.LogAnnotation;
+import com.seven.blog.dao.mapper.ArticleMapper;
 import com.seven.blog.dao.mapper.CommentMapper;
 import com.seven.blog.dao.pojo.Comment;
 import com.seven.blog.dao.pojo.SysUser;
 import com.seven.blog.service.CommentService;
 import com.seven.blog.service.SysUserService;
+import com.seven.blog.service.ThreadService;
 import com.seven.blog.utils.SysUserLocalThread;
 import com.seven.blog.vo.CommentVo;
 import com.seven.blog.vo.params.CommentParams;
+import lombok.AllArgsConstructor;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +34,13 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
 
     @Autowired
+    private ArticleMapper articleMapper;
+
+    @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private ThreadService threadService;
 
     @Override
     public List<CommentVo> getComments(Long articleId) {
@@ -66,6 +76,9 @@ public class CommentServiceImpl implements CommentService {
         comment.setToUid(commentParams.getToUserId()==null ? 0L : commentParams.getToUserId());
         comment.setCreateDate(System.currentTimeMillis());
         int row = this.commentMapper.insert(comment);
+        if(row!=0){
+            threadService.updateCommentCounts(articleMapper,commentParams.getArticleId());
+        }
         return row;
     }
 

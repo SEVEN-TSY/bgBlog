@@ -1,5 +1,7 @@
 package com.seven.blog.controller;
 
+import com.seven.blog.common.aop.LogAnnotation;
+import com.seven.blog.common.cache.Cache;
 import com.seven.blog.service.ArticleService;
 import com.seven.blog.vo.params.ArticleParams;
 import com.seven.blog.vo.params.PageParams;
@@ -28,6 +30,8 @@ public class ArticleController {
      * @return Result
      */
     @PostMapping
+    @LogAnnotation
+    @Cache(expire = 5 * 60 * 1000,name = "listArticle")
     public Result listArticle(@RequestBody PageParams pageParams){
         return Result.success(articleService.listArticlesPage(pageParams));
 
@@ -68,6 +72,7 @@ public class ArticleController {
      * @return Result
      */
     @PostMapping("view/{id}")
+    @Cache(expire = 5 * 60 * 1000,name = "article_view")
     public Result getArticleView(@PathVariable("id") Long id){
 
         return Result.success(articleService.findArticleById(id));
