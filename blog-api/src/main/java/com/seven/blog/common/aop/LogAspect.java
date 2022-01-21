@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 @Slf4j
 public class LogAspect {
 
-    @Pointcut("execution(* com.seven.blog.service..*.*(..)) || @annotation(com.seven.blog.common.aop.LogAnnotation)")
+    @Pointcut("execution(* com.seven.blog.service.impl..*.*(..)) || @annotation(com.seven.blog.common.aop.LogAnnotation)")
     public void logPointcut(){
 
     }

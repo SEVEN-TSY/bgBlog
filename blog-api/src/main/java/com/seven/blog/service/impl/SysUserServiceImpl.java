@@ -59,7 +59,7 @@ public class SysUserServiceImpl implements SysUserService {
         loginUserVO.setAccount(sysUser.getAccount());
         loginUserVO.setNickname(sysUser.getNickname());
         loginUserVO.setAvatar(sysUser.getAvatar());
-        loginUserVO.setId(sysUser.getId());
+        loginUserVO.setId(String.valueOf(sysUser.getId()));
         return loginUserVO;
     }
 
@@ -81,7 +81,7 @@ public class SysUserServiceImpl implements SysUserService {
     public UserVo getUserVoById(Long authorId) {
         SysUser sysUser = sysUserMapper.selectById(authorId);
         UserVo userVo = new UserVo();
-        userVo.setId(sysUser.getId());
+        userVo.setId(String.valueOf(sysUser.getId()));
         userVo.setNickname(sysUser.getNickname());
         userVo.setAvatar(sysUser.getAvatar());
         return userVo;

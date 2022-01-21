@@ -177,6 +177,7 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleVo articleVO=new ArticleVo();
         //将相同属性copy
         BeanUtils.copyProperties(article,articleVO);
+        articleVO.setId(String.valueOf(article.getId()));
         articleVO.setCreateDate(new DateTime(article.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
         //标签vo
         if(isTag){

@@ -16,8 +16,7 @@ import java.util.List;
 @Data
 public class CommentVo {
 
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private String id;
 
     private UserVo author;
 

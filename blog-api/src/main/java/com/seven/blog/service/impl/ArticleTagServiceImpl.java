@@ -27,7 +27,7 @@ public class ArticleTagServiceImpl implements ArticleTagService {
             for (TagVo tag : tags) {
                 ArticleTag articleTag=new ArticleTag();
                 articleTag.setArticleId(articleId);
-                articleTag.setTagId(tag.getId());
+                articleTag.setTagId(Long.parseLong(tag.getId()));
                 articleTagMapper.insert(articleTag);
             }
         }

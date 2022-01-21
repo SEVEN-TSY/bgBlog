@@ -97,6 +97,7 @@ public class CommentServiceImpl implements CommentService {
          */
         CommentVo commentVo=new CommentVo();
         BeanUtils.copyProperties(comment,commentVo);
+        commentVo.setId(String.valueOf(comment.getId()));
         commentVo.setCreateDate(new DateTime(comment.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
         //获取当前评论人的信息
         commentVo.setAuthor(sysUserService.getUserVoById(comment.getAuthorId()));
